@@ -20,7 +20,7 @@ pipeline {
         stage('Build and publish docker image of python 3.6') {
             steps {
                 withDockerRegistry([credentialsId: 'gini-registry', url: 'https://hub.i.gini.net/']) {
-                    sh "docker build -t hub.i.gini.net/3a/pytorch_py36:${env.BUILD_NUMBER} -e PYTHON_VERSION=3.6 -f docker/pytorch/Dockerfile ."
+                    sh "docker build -t hub.i.gini.net/3a/pytorch_py36:${env.BUILD_NUMBER} --build-arg PYTHON_VERSION=3.6 -f docker/pytorch/Dockerfile ."
 
                     sh "docker push hub.i.gini.net/3a/pytorch_py36:${env.BUILD_NUMBER}"
                 }
@@ -30,7 +30,7 @@ pipeline {
         stage('Build and publish docker image of python 3.7') {
             steps {
                 withDockerRegistry([credentialsId: 'gini-registry', url: 'https://hub.i.gini.net/']) {
-                    sh "docker build -t hub.i.gini.net/3a/pytorch_py37:${env.BUILD_NUMBER} -e PYTHON_VERSION=3.7 -f docker/pytorch/Dockerfile ."
+                    sh "docker build -t hub.i.gini.net/3a/pytorch_py37:${env.BUILD_NUMBER} --build-arg PYTHON_VERSION=3.7 -f docker/pytorch/Dockerfile ."
 
                     sh "docker push hub.i.gini.net/3a/pytorch_py37:${env.BUILD_NUMBER}"
                 }

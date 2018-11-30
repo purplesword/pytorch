@@ -16,11 +16,17 @@ pipeline {
     }
 
     stages {
-        stage('Build and publish docker image of python 3.7') {
+        stage('Build docker image') {
             steps {
                 withDockerRegistry([credentialsId: 'gini-registry', url: 'https://hub.i.gini.net/']) {
                     sh "docker build -t hub.i.gini.net/3a/pytorch_v1_py37_cpu:${env.BUILD_NUMBER} --build-arg PYTHON_VERSION=3.7 -f docker/pytorch/Dockerfile.cpu ."
+                }
+            }
+        }
 
+        stage('Push docker image') {
+            steps {
+                withDockerRegistry([credentialsId: 'gini-registry', url: 'https://hub.i.gini.net/']) {
                     sh "docker push hub.i.gini.net/3a/pytorch_v1_py37_cpu:${env.BUILD_NUMBER}"
                 }
             }
